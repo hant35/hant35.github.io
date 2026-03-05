@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>comma — Lái xe thoải mái hơn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --border: #27272a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text-primary); line-height: 1.6; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        /* Header */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); padding: 1rem 2rem;
+        }
+        nav {
+            max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { font-weight: 700; font-size: 1.25rem; color: white; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--text-secondary); }
+        .nav-links a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            text-align: center; padding: 4rem 2rem;
+            background: linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+        }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .hero p { color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem; }
+        
+        /* Brand Grid */
+        .brands-section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .brands-section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .brands-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;
+        }
+        .brand-item {
+            padding: 1rem; background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s;
+        }
+        .brand-item:hover { border-color: var(--accent); background: #1a1a1a; }
+        .brand-item.active { border-color: var(--accent); background: #1a1a1a; }
+        
+        /* Favorites */
+        .favorites { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .favorites h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .favorites > p { color: var(--text-secondary); margin-bottom: 2rem; }
+        .favorites-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;
+        }
+        .fav-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem; transition: all 0.2s;
+        }
+        .fav-card:hover { border-color: var(--accent); }
+        .fav-card .category { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+        .fav-card .model { font-weight: 600; margin-bottom: 0.25rem; }
+        .fav-card .years { color: var(--text-secondary); font-size: 0.9rem; }
+        
+        /* Vehicles */
+        .vehicles-section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .brand-title { font-size: 1.75rem; margin: 3rem 0 1.5rem; padding-bottom: 0.5rem; }
+        .vehicle-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 2rem; margin-bottom: 1.5rem; transition: all 0.2s;
+        }
+        .vehicle-card:hover { border-color: var(--border); }
+        .vehicle-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+        .vehicle-model { font-size: 1.25rem; font-weight: 600; }
+        .vehicle-years { color: var(--text-secondary); }
+        .vehicle-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        
+        /* Don't see your car */
+        .no-car { padding: 2rem; text-align: center; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 12px; margin: 2rem 0; }
+        .no-car p { margin-bottom: 1rem; color: var(--text-secondary); }
+        
+        /* FAQ */
+        .faq-section { padding: 4rem 2rem; max-width: 800px; margin: 0 auto; }
+        .faq-section h2 { font-size: 2rem; margin-bottom: 2rem; text-align: center; }
+        .faq-item { margin-bottom: 2rem; }
+        .faq-item h3 { font-size: 1.125rem; margin-bottom: 0.75rem; cursor: pointer; }
+        .faq-item p, .faq-item ul { color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .faq-item ul { margin-left: 1.5rem; }
+        .faq-item li { margin-bottom: 0.25rem; }
+        
+        /* Footer */
+        footer {
+            background: var(--bg-card); border-top: 1px solid var(--border); padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+        .footer-content { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); }
+        .footer-copy { color: var(--text-secondary); font-size: 0.9rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+        .btn-discord, .btn-github {
+            padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-discord { background: #5865F2; color: white; }
+        .btn-github { background: var(--border); color: white; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">Hãng Xe Tương Thích</a>
+            <div class="nav-links">
+                <a href="#">Trang chủ</a>
+                <a href="#faq">Hỏi đáp</a>
+                <a href="https://forms.gle/YOUR_FORM_ID_HERE" target="_blank" rel="noopener">Liên hệ</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Hệ thống hỗ trợ hơn 325+ mẫu xe</h1>
+        <p>Xe được hỗ trợ là xe hoạt động ngay khi bạn lắp đặt hệ thống lái tự động. Tất cả xe được hỗ trợ đều mang lại trải nghiệm tốt hơn bất kỳ hệ thống gốc nào. Tham chiếu thị trường Mỹ trừ khi có quy định khác.</p>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">Cập nhật lần cuối: 20 tháng 2, 2026</p>
+    </section>
+
+    <section class="brands-section">
+        <h2>Hãng xe được hỗ trợ</h2>
+        <div class="brands-grid" id="brands-grid">
+            <div class="brand-item" data-brand="Acura">Acura</div>
+            <div class="brand-item" data-brand="Audi">Audi</div>
+            <div class="brand-item" data-brand="Chevrolet">Chevrolet</div>
+            <div class="brand-item" data-brand="Chrysler">Chrysler</div>
+            <div class="brand-item" data-brand="comma">comma</div>
+            <div class="brand-item" data-brand="CUPRA">CUPRA</div>
+            <div class="brand-item" data-brand="Dodge">Dodge</div>
+            <div class="brand-item" data-brand="Ford">Ford</div>
+            <div class="brand-item" data-brand="Genesis">Genesis</div>
+            <div class="brand-item" data-brand="GMC">GMC</div>
+            <div class="brand-item" data-brand="Honda">Honda</div>
+            <div class="brand-item" data-brand="Hyundai">Hyundai</div>
+            <div class="brand-item" data-brand="Jeep">Jeep</div>
+            <div class="brand-item" data-brand="Kia">Kia</div>
+            <div class="brand-item" data-brand="Lexus">Lexus</div>
+            <div class="brand-item" data-brand="Lincoln">Lincoln</div>
+            <div class="brand-item" data-brand="MAN">MAN</div>
+            <div class="brand-item" data-brand="Mazda">Mazda</div>
+            <div class="brand-item" data-brand="Nissan">Nissan</div>
+            <div class="brand-item" data-brand="Ram">Ram</div>
+            <div class="brand-item" data-brand="Rivian">Rivian</div>
+            <div class="brand-item" data-brand="SEAT">SEAT</div>
+            <div class="brand-item" data-brand="Subaru">Subaru</div>
+            <div class="brand-item" data-brand="Škoda">Škoda</div>
+            <div class="brand-item" data-brand="Tesla">Tesla</div>
+            <div class="brand-item" data-brand="Toyota">Toyota</div>
+            <div class="brand-item" data-brand="Volkswagen">Volkswagen</div>
+        </div>
+    </section>
+
+    <section class="favorites">
+        <h2>Những mẫu xe yêu thích được hỗ trợ</h2>
+        <p>Nhìn chung, các mẫu Hyundai và Toyota mới là lựa chọn tuyệt vời. Đây là một số mẫu chúng tôi ưa thích:</p>
+        <div class="favorites-grid">
+            <div class="fav-card">
+                <div class="category">Xe điện</div>
+                <div class="model">Kia EV6</div>
+                <div class="years">Hyundai Ioniq 5 • Toyota Prius 2021–22</div>
+            </div>
+            <div class="fav-card">
+                <div class="category">SUV</div>
+                <div class="model">Toyota Highlander 2020–23</div>
+                <div class="years">Hyundai Palisade 2020–22</div>
+            </div>
+            <div class="fav-card">
+                <div class="category">Sedan</div>
+                <div class="model">Toyota Corolla 2020–22</div>
+                <div class="years">Hyundai Sonata 2020–23</div>
+            </div>
+            <div class="fav-card">
+                <div class="category">Bán tải</div>
+                <div class="model">Ram 1500 2019–24</div>
+                <div class="years">Chevrolet Silverado 1500 2020–21</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="vehicles-section">
+        <div id="vehicles-container"></div>
+        <div id="loading-msg" style="text-align:center; padding:2rem; color:var(--text-secondary);">Đang tải danh sách xe...</div>
+
+        <div class="no-car">
+            <p><strong>Không thấy xe của bạn?</strong></p>
+            <p>Nếu bạn không thấy xe của mình, hiện tại xe chưa được hỗ trợ. Tuy nhiên, các mẫu xe được liệt kê trong danh sách đều dựa trên thị trường Mỹ, vì vậy các mẫu xe không được bán ở Mỹ sẽ không có trong danh sách, nhưng có thể vẫn được hỗ trợ một phần hoặc đầy đủ.</p>
+            <p><a href="#">Đăng ký nhận bản tin</a> để cập nhật.</p>
+            <p>Nếu bạn có xe hiện đại và kỹ năng lập trình, bạn có thể tự thêm hỗ trợ cho xe của mình. Xem bài nói chuyện này và tham khảo tài liệu để tìm hiểu thêm.</p>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <h2>Câu hỏi thường gặp về Hệ thống tự lái</h2>
+        
+        <div class="faq-item">
+            <h3>Hệ thống tự lái là gì?</h3>
+            <p>Hệ thống tự lái là hệ thống hỗ trợ lái xe nguồn mở. Hiện tại, Hệ thống thực hiện các chức năng Kiểm soát hành trình thích ứng (ACC) và Canh giữ làn tự động (ALC) cho xe tương thích. Nó hoạt động tương tự Tesla Autopilot và GM Super Cruise. Hệ thống có thể lái, tăng tốc và phanh tự động cho các xe khác trong làn đường của nó.</p>
+            <p>Để đảm bảo sự tỉnh táo của tài xế, Hệ thống bao gồm hệ thống Giám sát tài xế (DM) dựa trên camera cảnh báo khi tài xế mất tập trung hoặc buồn ngủ. Tuy nhiên, ngay cả với tài xế chú ý, chúng ta phải nỗ lực thêm để hệ thống an toàn. Chúng ta đã thiết kế Hệ thống với hai cân nhắc an toàn khác:</p>
+            <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                <li>Xe không được thay đổi quỹ đạo quá nhanh so với khả năng phản ứng an toàn của tài xế. Điều này có nghĩa là khi hệ thống hoạt động, các bộ truyền động bị giới hạn trong phạm vi hợp lý.</li>
+                <li>Tài xế phải luôn có khả năng giành lại kiểm soát thủ công ngay lập tức bằng cách đạp chân ga/phanh hoặc nhấn nút hủy.</li>
+            </ol>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hệ thống hoạt động như thế nào?</h3>
+            <p>Hệ thống hoạt động bằng cách kết nối với mạng CAN của xe bạn. Hầu hết xe hiện đại chấp nhận lệnh lái, ga và phanh điện tử để cho phép các tính năng hỗ trợ lái. Hệ thống có thể sử dụng các lệnh này để cung cấp tính năng hỗ trợ lái tốt hơn nhiều so với các hãng xe.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Xe của tôi có tương thích với Hệ thống không?</h3>
+            <p>Danh sách đầy đủ xe tương thích có thể tìm thấy trên trang danh sách xe tương thích của chúng tôi.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Tôi có phải chú ý khi lái không?</h3>
+            <p>Có, tài xế phải luôn có thể giành lại kiểm soát thủ công ngay lập tức bằng cách đạp phanh hoặc nhấn nút hủy. Khi Hệ thống hoạt động, hệ thống giám sát tài xế theo dõi ý thức của tài xế để giúp ngăn mất tập trung. Hệ thống sẽ tắt nếu bạn mất tập trung. Tài xế phải luôn mắt nhìn đường và sẵn sàng kiểm soát xe.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Mô hình an toàn của Hệ thống là gì?</h3>
+            <p>Hệ thống là hệ thống Kiểm soát hành trình thích ứng (ACC) và Canh giữ làn tự động (ALC). Giống các hệ thống ACC và ALC khác, Hệ thống là hệ thống thụ động an toàn (failsafe) và yêu cầu tài xế phải tỉnh táo, chú ý mọi lúc.</p>
+            <p>Để đảm bảo sự tỉnh táo của tài xế, Hệ thống bao gồm tính năng giám sát tài xế cảnh báo khi tài xế mất tập trung. Tuy nhiên, <strong>sự tỉnh táo của tài xế là cần thiết nhưng chưa đủ</strong> để Hệ thống được sử dụng an toàn. Hệ thống được cung cấp không có bảo hành phù hợp cho bất kỳ mục đích nào.</p>
+            <p>Hệ thống được phát triển với thiện chí tuân thủ yêu cầu FMVSS và theo tiêu chuẩn an toàn ngành cho Hệ thống Hỗ trợ Lái xe Cấp 2. Cụ thể, Hệ thống tuân thủ hướng dẫn ISO26262, bao gồm các tài liệu của NHTSA. Ngoài ra, Hệ thống áp dụng quy tắc mã hóa nghiêm ngặt (như MISRA C:2012) cho các phần liên quan đến an toàn. Mỗi bản phát hành phần mềm đều trải qua kiểm thử mô phỏng phần mềm (software-in-the-loop), kiểm thử mô phỏng phần cứng (hardware-in-the-loop) và kiểm thử trên xe trước khi phát hành.</p>
+            <p>Sau Phân tích Mối nguy và Rủi ro cùng FMEA, Hệ thống được thiết kế đảm bảo hai yêu cầu an toàn chính:</p>
+            <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                <li>Tài xế phải luôn có khả năng giành lại kiểm soát thủ công ngay lập tức bằng cách đạp phanh hoặc nhấn nút hủy.</li>
+                <li>Xe không được thay đổi quỹ đạo quá nhanh so với khả năng phản ứng an toàn của tài xế. Khi hệ thống hoạt động, các bộ truyền động bị giới hạn trong phạm vi hợp lý (tuân thủ ISO11270 và ISO15622 — giới hạn ngang tương đương tối đa 0,9 giây để đạt độ lệch ngang 1m).</li>
+            </ol>
+            <p>Thông tin chi tiết thêm về mô hình an toàn: <a href="https://github.com/commaai/panda#safety-model" target="_blank" rel="noopener">panda safety model</a>, <a href="https://github.com/commaai/opendbc/tree/master/opendbc/safety/safety" target="_blank" rel="noopener">opendbc safety</a>. Xem tài liệu gốc: <a href="https://github.com/commaai/openpilot/blob/master/docs/SAFETY.md" target="_blank" rel="noopener">SAFETY.md</a>.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hạn chế của Canh giữ làn tự động Hệ thống là gì?</h3>
+            <p>Hệ thống Canh giữ làn tự động (ALC) Hệ thống không tự động lái xe hoặc giảm mức độ chú ý cần thiết phía trước xe. Tài xế phải luôn kiểm soát vô lăng và sẵn sàng sửa hành động của hệ thống ALC mọi lúc.</p>
+            <p>Nhiều yếu tố có thể ảnh hưởng đến hiệu năng Hệ thống ALC, bao gồm nhưng không giới hạn:</p>
+            <ul>
+                <li>Lái xe trên đường dốc, hẹp hoặc quanh co</li>
+                <li>Ánh sáng mạnh (đèn đối diện, ánh nắng trực tiếp, v.v.)</li>
+                <li>Nhiệt độ cực nóng hoặc lạnh</li>
+                <li>Đường nghiêng mạnh hoặc gió ngang</li>
+                <li>Làn đường bị hạn chế hoặc khu vực thi công</li>
+                <li>Đường cua gắt (lên/xuống ramp, ngã tư...); Hệ thống được thiết kế giới hạn mô-men xoắn lái</li>
+                <li>Thiết bị lắp đặt sai</li>
+                <li>Camera bị che, phủ hoặc hỏng bởi bùn, băng, tuyết</li>
+                <li>Tầm nhìn kém (mưa to, tuyết, sương mù...) hoặc thời tiết ảnh hưởng cảm biến</li>
+            </ul>
+            <p>Danh sách trên không đầy đủ. Trách nhiệm của tài xế là kiểm soát xe mọi lúc.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hạn chế của Kiểm soát hành trình thích ứng Hệ thống là gì?</h3>
+            <p>Kiểm soát hành trình thích ứng (ACC) Hệ thống không cho phép lái xe cẩu thả hoặc thiếu chú ý. Tài xế vẫn phải chú ý môi trường xung quanh và sẵn sàng giành lại kiểm soát ga và phanh mọi lúc.</p>
+            <p>Nhiều yếu tố có thể ảnh hưởng hiệu năng Hệ thống ACC, bao gồm nhưng không giới hạn: nhiễu từ thiết bị siêu âm, ánh sáng mạnh, nhiệt độ cực đoan, xe cắt làn gần, phanh gấp, xe đứng yên trong làn, biển báo/đèn giao thông không được phát hiện, đường có người đi bộ/xe đạp, trạm thu phí, v.v.</p>
+            <p>Trách nhiệm của tài xế là kiểm soát xe mọi lúc.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Tôi có giữ được các tính năng an toàn gốc của xe khi cài Hệ thống không?</h3>
+            <p>Khi bật Hệ thống trong cài đặt, Hỗ trợ giữ làn (LKAS) và Canh giữ làn tự động (ALC) được thay thế bởi điều khiển ngang Hệ thống và chỉ hoạt động khi Hệ thống bật. Cảnh báo rời làn (LDW) hoạt động dù bật hay tắt.</p>
+            <p>Trên một số xe, Kiểm soát hành trình thích ứng (ACC) được thay thế bởi điều khiển dọc Hệ thống.</p>
+            <p>Hệ thống giữ mọi tính năng an toàn khác: phanh khẩn cấp tự động, đèn pha tự động, cảnh báo điểm mù, cảnh báo va chạm bên.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hệ thống có hỗ trợ xe số tay không?</h3>
+            <p>Trên một số xe, số tay được hỗ trợ nếu có các gói trong bảng tương thích. Tìm hiểu thêm trên Discord.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hệ thống nhận dạng mẫu xe như thế nào?</h3>
+            <p>Nếu xe của bạn trong danh sách, Hệ thống sẽ tự nhận dạng bằng cách quét phiên bản firmware ECU trong xe. Phiên bản firmware nhất định cho biết năm sản xuất, hãng, mẫu và phiên bản.</p>
+            <p>Nếu xe không được nhận dạng, thiết bị chuyển sang chế độ camera hành trình và thông báo trên màn hình.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Làm sao cập nhật Hệ thống?</h3>
+            <p>Tất cả cập nhật được nhận qua OTA. Hệ thống tự kiểm tra khi kết nối internet. Thiết bị sẽ thông báo khi có bản cập nhật và yêu cầu khởi động lại. Bạn cũng có thể kiểm tra thủ công trong cài đặt, tab "phần mềm".</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hệ thống có hoạt động ở mọi tốc độ không?</h3>
+            <p>Tốc độ hỗ trợ tùy theo xe. Tham khảo danh sách xe để biết giới hạn. Tốc độ tối đa bằng ACC gốc của xe với giới hạn cứng khoảng 148 km/h.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Hệ thống có hoạt động ngoài Mỹ không?</h3>
+            <p>Có, Hệ thống không khóa theo vùng và có thể dùng ở mọi quốc gia. Bạn chịu trách nhiệm tuân thủ luật địa phương.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Fingerprint là gì?</h3>
+            <p>Fingerprint là phương pháp Hệ thống dùng để xác định xe được kết nối. Phương pháp hiện tại dùng nhật ký firmware ECU. Hệ thống sẽ fingerprint xe mỗi lần khởi động. Nếu phát hiện phiên bản firmware mới, cần thêm vào mã nguồn.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Dongle ID ở đâu?</h3>
+            <p>Dongle ID của thiết bị có trong Cài đặt thiết bị, tab Thiết bị.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-copy" style="margin-top: 2rem;">Điều khoản & Quyền riêng tư</p>
+        </div>
+    </footer>
+
+    <script src="vehicles.js"></script>
+    <script>
+        (function() {
+            const mphToKmh = (mph) => Math.round(mph * 1.609);
+            const translateDesc = (txt) => {
+                if (!txt) return '';
+                return txt
+                    .replace(/\[Experimental mode\]\([^)]+\)/g, 'chế độ Thử nghiệm')
+                    .replace(/Traffic light and stop sign handling is also available in [^.]+/g, 'Xử lý đèn giao thông và biển báo dừng cũng có sẵn ở chế độ Thử nghiệm')
+                    .replace(/This car may not be able to take tight turns on its own\.?\s*/g, 'Xe có thể không tự cua góc hẹp. ')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering at all speeds, and adaptive cruise control that automatically resumes from a stop\./g, 
+                        'Hệ thống giúp nâng cấp $1 của bạn với canh giữ làn tự động ở mọi tốc độ và kiểm soát hành trình thích ứng tự động tiếp tục khi dừng.')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering and adaptive cruise control while driving above (\d+) mph\./g,
+                        (_, car, mph) => 'Hệ thống giúp nâng cấp ' + car + ' của bạn với canh giữ làn tự động và kiểm soát hành trình thích ứng khi lái trên ' + mphToKmh(parseInt(mph)) + ' km/h.')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering above (\d+) mph, and adaptive cruise control that automatically resumes from a stop\./g,
+                        (_, car, mph) => 'Hệ thống giúp nâng cấp ' + car + ' của bạn với canh giữ làn tự động trên ' + mphToKmh(parseInt(mph)) + ' km/h và kiểm soát hành trình thích ứng tự động tiếp tục khi dừng.')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering above (\d+) mph, and adaptive cruise control while driving above (\d+) mph\./g,
+                        (_, car, m1, m2) => 'Hệ thống giúp nâng cấp ' + car + ' của bạn với canh giữ làn tự động trên ' + mphToKmh(parseInt(m1)) + ' km/h và kiểm soát hành trình thích ứng khi lái trên ' + mphToKmh(parseInt(m2)) + ' km/h.')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering above (\d+) mph, and adaptive cruise control\./g,
+                        (_, car, mph) => 'Hệ thống giúp nâng cấp ' + car + ' của bạn với canh giữ làn tự động trên ' + mphToKmh(parseInt(mph)) + ' km/h và kiểm soát hành trình thích ứng.')
+                    .replace(/openpilot upgrades your ([^.]+) with automated lane centering and adaptive cruise control while driving above (\d+) mph\./g,
+                        (_, car, mph) => 'Hệ thống giúp nâng cấp ' + car + ' của bạn với canh giữ làn tự động và kiểm soát hành trình thích ứng khi lái trên ' + mphToKmh(parseInt(mph)) + ' km/h.')
+                    .replace(/automated lane centering/g, 'canh giữ làn tự động')
+                    .replace(/adaptive cruise control/g, 'kiểm soát hành trình thích ứng')
+                    .replace(/that automatically resumes from a stop/g, 'tự động tiếp tục khi dừng')
+                    .replace(/while driving above (\d+) mph/g, (_, m) => 'khi lái trên ' + mphToKmh(parseInt(m)) + ' km/h')
+                    .replace(/above (\d+) mph/g, (_, m) => 'trên ' + mphToKmh(parseInt(m)) + ' km/h')
+                    .replace(/at all speeds/g, 'ở mọi tốc độ')
+                    .replace(/above (\d+) mph, and adaptive cruise control\./g, (_, m) => 'trên ' + mphToKmh(parseInt(m)) + ' km/h và kiểm soát hành trình thích ứng.')
+                    .replace(/openpilot/g, 'Hệ thống');
+            };
+            function renderVehicles(vehicles) {
+                const container = document.getElementById('vehicles-container');
+                const loading = document.getElementById('loading-msg');
+                if (!container) return;
+                const byBrand = {};
+                vehicles.forEach(v => {
+                    if (!byBrand[v.brand]) byBrand[v.brand] = [];
+                    byBrand[v.brand].push(v);
+                });
+                const brandOrder = ['Acura','Audi','Chevrolet','Chrysler','comma','CUPRA','Dodge','Ford','Genesis','GMC','Honda','Hyundai','Jeep','Kia','Lexus','Lincoln','MAN','Mazda','Nissan','Ram','Rivian','SEAT','Subaru','Škoda','Tesla','Toyota','Volkswagen'];
+                let html = '';
+                brandOrder.forEach(brand => {
+                    if (!byBrand[brand]) return;
+                    const list = byBrand[brand];
+                    const safeId = 'brand-' + brand.replace(/\s/g,'').replace(/Š/g,'S').replace(/š/g,'s');
+                    html += '<h2 class="brand-title" id="' + safeId + '" data-brand="' + brand + '">' + brand + ' (' + list.length + ')</h2>';
+                    list.forEach(v => {
+                        const desc = translateDesc(v.desc);
+                        html += '<div class="vehicle-card" data-brand="' + brand + '">' +
+                            '<div class="vehicle-header"><span class="vehicle-model">' + v.model + '</span><span class="vehicle-years">' + v.years + '</span></div>' +
+                            '<p class="vehicle-desc">' + desc + '</p>' +
+                            '</div>';
+                    });
+                });
+                container.innerHTML = html;
+                if (loading) loading.style.display = 'none';
+                document.querySelectorAll('.brand-item').forEach(el => {
+                    el.onclick = () => {
+                        const brand = el.dataset.brand;
+                        const safeId = 'brand-' + (brand || '').replace(/\s/g,'').replace(/Š/g,'S').replace(/š/g,'s');
+                        const target = document.getElementById(safeId);
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                        document.querySelectorAll('.brand-item').forEach(b => b.classList.remove('active'));
+                        el.classList.add('active');
+                    };
+                });
+            }
+            if (typeof VEHICLES !== 'undefined' && VEHICLES.length) {
+                renderVehicles(VEHICLES);
+            } else {
+                document.getElementById('loading-msg').innerHTML = 'Không tải được dữ liệu. Đảm bảo file <code>vehicles.js</code> cùng thư mục. Hoặc chạy <code>python -m http.server 8000</code> rồi mở http://localhost:8000';
+            }
+        })();
+    </script>
+</body>
+</html>
