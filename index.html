@@ -52,9 +52,14 @@
         .brand-item {
             padding: 1rem; background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
         }
         .brand-item:hover { border-color: var(--accent); background: #1a1a1a; }
         .brand-item.active { border-color: var(--accent); background: #1a1a1a; }
+        .brand-item .brand-logo {
+            width: 40px; height: 40px; object-fit: contain;
+        }
+        .brand-item .brand-name { font-size: 0.9rem; }
         
         /* Favorites */
         .favorites { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
@@ -77,13 +82,23 @@
         .brand-title { font-size: 1.75rem; margin: 3rem 0 1.5rem; padding-bottom: 0.5rem; }
         .vehicle-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 2rem; margin-bottom: 1.5rem; transition: all 0.2s;
+            padding: 0.75rem 2rem; margin-bottom: 1.5rem; transition: all 0.2s;
         }
         .vehicle-card:hover { border-color: var(--border); }
-        .vehicle-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+        .vehicle-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+        .vehicle-header-left { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; flex: 1; }
         .vehicle-model { font-size: 1.25rem; font-weight: 600; }
         .vehicle-years { color: var(--text-secondary); }
-        .vehicle-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        .vehicle-desc { color: var(--text-secondary); font-size: 0.95rem; margin-top: 1rem; }
+        .vehicle-detail-toggle {
+            padding: 0.25rem; border: none; background: transparent; color: var(--text-secondary);
+            cursor: pointer; font-size: 0.75rem; line-height: 1; flex-shrink: 0;
+        }
+        .vehicle-detail-toggle:hover { color: var(--text-primary); }
+        .vehicle-detail-toggle .chevron { display: block; transition: transform 0.2s; }
+        .vehicle-detail-toggle.expanded .chevron { transform: rotate(180deg); }
+        .vehicle-detail-content { display: none; overflow: hidden; }
+        .vehicle-detail-content.expanded { display: block; }
         
         /* Don't see your car */
         .no-car { padding: 2rem; text-align: center; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 12px; margin: 2rem 0; }
@@ -142,33 +157,33 @@
     <section class="brands-section">
         <h2>Hãng xe được hỗ trợ</h2>
         <div class="brands-grid" id="brands-grid">
-            <div class="brand-item" data-brand="Acura">Acura</div>
-            <div class="brand-item" data-brand="Audi">Audi</div>
-            <div class="brand-item" data-brand="Chevrolet">Chevrolet</div>
-            <div class="brand-item" data-brand="Chrysler">Chrysler</div>
-            <div class="brand-item" data-brand="comma">comma</div>
-            <div class="brand-item" data-brand="CUPRA">CUPRA</div>
-            <div class="brand-item" data-brand="Dodge">Dodge</div>
-            <div class="brand-item" data-brand="Ford">Ford</div>
-            <div class="brand-item" data-brand="Genesis">Genesis</div>
-            <div class="brand-item" data-brand="GMC">GMC</div>
-            <div class="brand-item" data-brand="Honda">Honda</div>
-            <div class="brand-item" data-brand="Hyundai">Hyundai</div>
-            <div class="brand-item" data-brand="Jeep">Jeep</div>
-            <div class="brand-item" data-brand="Kia">Kia</div>
-            <div class="brand-item" data-brand="Lexus">Lexus</div>
-            <div class="brand-item" data-brand="Lincoln">Lincoln</div>
-            <div class="brand-item" data-brand="MAN">MAN</div>
-            <div class="brand-item" data-brand="Mazda">Mazda</div>
-            <div class="brand-item" data-brand="Nissan">Nissan</div>
-            <div class="brand-item" data-brand="Ram">Ram</div>
-            <div class="brand-item" data-brand="Rivian">Rivian</div>
-            <div class="brand-item" data-brand="SEAT">SEAT</div>
-            <div class="brand-item" data-brand="Subaru">Subaru</div>
-            <div class="brand-item" data-brand="Škoda">Škoda</div>
-            <div class="brand-item" data-brand="Tesla">Tesla</div>
-            <div class="brand-item" data-brand="Toyota">Toyota</div>
-            <div class="brand-item" data-brand="Volkswagen">Volkswagen</div>
+            <div class="brand-item" data-brand="Acura" data-logo="https://logo.clearbit.com/acura.com"><img class="brand-logo" src="https://logo.clearbit.com/acura.com" alt="Acura" onerror="this.style.display='none'"><span class="brand-name">Acura</span></div>
+            <div class="brand-item" data-brand="Audi" data-logo="https://logo.clearbit.com/audi.com"><img class="brand-logo" src="https://logo.clearbit.com/audi.com" alt="Audi" onerror="this.style.display='none'"><span class="brand-name">Audi</span></div>
+            <div class="brand-item" data-brand="Chevrolet" data-logo="https://logo.clearbit.com/chevrolet.com"><img class="brand-logo" src="https://logo.clearbit.com/chevrolet.com" alt="Chevrolet" onerror="this.style.display='none'"><span class="brand-name">Chevrolet</span></div>
+            <div class="brand-item" data-brand="Chrysler" data-logo="https://logo.clearbit.com/chrysler.com"><img class="brand-logo" src="https://logo.clearbit.com/chrysler.com" alt="Chrysler" onerror="this.style.display='none'"><span class="brand-name">Chrysler</span></div>
+            <div class="brand-item" data-brand="comma" data-logo="https://logo.clearbit.com/comma.ai"><img class="brand-logo" src="https://logo.clearbit.com/comma.ai" alt="comma" onerror="this.style.display='none'"><span class="brand-name">comma</span></div>
+            <div class="brand-item" data-brand="CUPRA" data-logo="https://logo.clearbit.com/cupra.com"><img class="brand-logo" src="https://logo.clearbit.com/cupra.com" alt="CUPRA" onerror="this.style.display='none'"><span class="brand-name">CUPRA</span></div>
+            <div class="brand-item" data-brand="Dodge" data-logo="https://logo.clearbit.com/dodge.com"><img class="brand-logo" src="https://logo.clearbit.com/dodge.com" alt="Dodge" onerror="this.style.display='none'"><span class="brand-name">Dodge</span></div>
+            <div class="brand-item" data-brand="Ford" data-logo="https://logo.clearbit.com/ford.com"><img class="brand-logo" src="https://logo.clearbit.com/ford.com" alt="Ford" onerror="this.style.display='none'"><span class="brand-name">Ford</span></div>
+            <div class="brand-item" data-brand="Genesis" data-logo="https://logo.clearbit.com/genesis.com"><img class="brand-logo" src="https://logo.clearbit.com/genesis.com" alt="Genesis" onerror="this.style.display='none'"><span class="brand-name">Genesis</span></div>
+            <div class="brand-item" data-brand="GMC" data-logo="https://logo.clearbit.com/gmc.com"><img class="brand-logo" src="https://logo.clearbit.com/gmc.com" alt="GMC" onerror="this.style.display='none'"><span class="brand-name">GMC</span></div>
+            <div class="brand-item" data-brand="Honda" data-logo="https://logo.clearbit.com/honda.com"><img class="brand-logo" src="https://logo.clearbit.com/honda.com" alt="Honda" onerror="this.style.display='none'"><span class="brand-name">Honda</span></div>
+            <div class="brand-item" data-brand="Hyundai" data-logo="https://logo.clearbit.com/hyundai.com"><img class="brand-logo" src="https://logo.clearbit.com/hyundai.com" alt="Hyundai" onerror="this.style.display='none'"><span class="brand-name">Hyundai</span></div>
+            <div class="brand-item" data-brand="Jeep" data-logo="https://logo.clearbit.com/jeep.com"><img class="brand-logo" src="https://logo.clearbit.com/jeep.com" alt="Jeep" onerror="this.style.display='none'"><span class="brand-name">Jeep</span></div>
+            <div class="brand-item" data-brand="Kia" data-logo="https://logo.clearbit.com/kia.com"><img class="brand-logo" src="https://logo.clearbit.com/kia.com" alt="Kia" onerror="this.style.display='none'"><span class="brand-name">Kia</span></div>
+            <div class="brand-item" data-brand="Lexus" data-logo="https://logo.clearbit.com/lexus.com"><img class="brand-logo" src="https://logo.clearbit.com/lexus.com" alt="Lexus" onerror="this.style.display='none'"><span class="brand-name">Lexus</span></div>
+            <div class="brand-item" data-brand="Lincoln" data-logo="https://logo.clearbit.com/lincoln.com"><img class="brand-logo" src="https://logo.clearbit.com/lincoln.com" alt="Lincoln" onerror="this.style.display='none'"><span class="brand-name">Lincoln</span></div>
+            <div class="brand-item" data-brand="MAN" data-logo="https://logo.clearbit.com/man.eu"><img class="brand-logo" src="https://logo.clearbit.com/man.eu" alt="MAN" onerror="this.style.display='none'"><span class="brand-name">MAN</span></div>
+            <div class="brand-item" data-brand="Mazda" data-logo="https://logo.clearbit.com/mazda.com"><img class="brand-logo" src="https://logo.clearbit.com/mazda.com" alt="Mazda" onerror="this.style.display='none'"><span class="brand-name">Mazda</span></div>
+            <div class="brand-item" data-brand="Nissan" data-logo="https://logo.clearbit.com/nissan.com"><img class="brand-logo" src="https://logo.clearbit.com/nissan.com" alt="Nissan" onerror="this.style.display='none'"><span class="brand-name">Nissan</span></div>
+            <div class="brand-item" data-brand="Ram" data-logo="https://logo.clearbit.com/ramtrucks.com"><img class="brand-logo" src="https://logo.clearbit.com/ramtrucks.com" alt="Ram" onerror="this.style.display='none'"><span class="brand-name">Ram</span></div>
+            <div class="brand-item" data-brand="Rivian" data-logo="https://logo.clearbit.com/rivian.com"><img class="brand-logo" src="https://logo.clearbit.com/rivian.com" alt="Rivian" onerror="this.style.display='none'"><span class="brand-name">Rivian</span></div>
+            <div class="brand-item" data-brand="SEAT" data-logo="https://logo.clearbit.com/seat.com"><img class="brand-logo" src="https://logo.clearbit.com/seat.com" alt="SEAT" onerror="this.style.display='none'"><span class="brand-name">SEAT</span></div>
+            <div class="brand-item" data-brand="Subaru" data-logo="https://logo.clearbit.com/subaru.com"><img class="brand-logo" src="https://logo.clearbit.com/subaru.com" alt="Subaru" onerror="this.style.display='none'"><span class="brand-name">Subaru</span></div>
+            <div class="brand-item" data-brand="Škoda" data-logo="https://logo.clearbit.com/skoda-auto.com"><img class="brand-logo" src="https://logo.clearbit.com/skoda-auto.com" alt="Škoda" onerror="this.style.display='none'"><span class="brand-name">Škoda</span></div>
+            <div class="brand-item" data-brand="Tesla" data-logo="https://logo.clearbit.com/tesla.com"><img class="brand-logo" src="https://logo.clearbit.com/tesla.com" alt="Tesla" onerror="this.style.display='none'"><span class="brand-name">Tesla</span></div>
+            <div class="brand-item" data-brand="Toyota" data-logo="https://logo.clearbit.com/toyota.com"><img class="brand-logo" src="https://logo.clearbit.com/toyota.com" alt="Toyota" onerror="this.style.display='none'"><span class="brand-name">Toyota</span></div>
+            <div class="brand-item" data-brand="Volkswagen" data-logo="https://logo.clearbit.com/volkswagen.com"><img class="brand-logo" src="https://logo.clearbit.com/volkswagen.com" alt="Volkswagen" onerror="this.style.display='none'"><span class="brand-name">Volkswagen</span></div>
         </div>
     </section>
 
@@ -377,13 +392,25 @@
                     list.forEach(v => {
                         const desc = translateDesc(v.desc);
                         html += '<div class="vehicle-card" data-brand="' + brand + '">' +
-                            '<div class="vehicle-header"><span class="vehicle-model">' + v.model + '</span><span class="vehicle-years">' + v.years + '</span></div>' +
-                            '<p class="vehicle-desc">' + desc + '</p>' +
+                            '<div class="vehicle-header">' +
+                            '<div class="vehicle-header-left"><span class="vehicle-model">' + v.model + '</span><span class="vehicle-years">' + v.years + '</span></div>' +
+                            '<button type="button" class="vehicle-detail-toggle" aria-expanded="false" title="Xem chi tiết"><span class="chevron">▼</span></button>' +
+                            '</div>' +
+                            '<div class="vehicle-detail-content"><p class="vehicle-desc">' + desc + '</p></div>' +
                             '</div>';
                     });
                 });
                 container.innerHTML = html;
                 if (loading) loading.style.display = 'none';
+                container.querySelectorAll('.vehicle-detail-toggle').forEach(btn => {
+                    btn.onclick = () => {
+                        const content = btn.closest('.vehicle-card').querySelector('.vehicle-detail-content');
+                        const expanded = content.classList.toggle('expanded');
+                        btn.classList.toggle('expanded', expanded);
+                        btn.setAttribute('aria-expanded', expanded);
+                        btn.setAttribute('title', expanded ? 'Thu gọn' : 'Xem chi tiết');
+                    };
+                });
                 document.querySelectorAll('.brand-item').forEach(el => {
                     el.onclick = () => {
                         const brand = el.dataset.brand;
